@@ -16,7 +16,7 @@ yarn add @christopy/x-router
 ## Usage
 First, import XRouter into your application:
 
-```bash
+```js
 import XRouter from "@christopy/x-router";
 ```
 
