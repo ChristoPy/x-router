@@ -2,25 +2,43 @@ interface Route {
   name: string;
   path: string;
   context: Function;
-}
-
-function matchRoute(routes: Route[]) {
-  const currentPath = window.location.pathname;
-    const route = routes.find((route) => route.path === currentPath);
-    if (route) {
-      route.context();
-    }
+  title?: string;
 }
 
 export default function XRouter(routes: Route[] = []) {
-  matchRoute(routes)
+  window.onpopstate = back;
+  document.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      const path = link.getAttribute('href');
+      const target = link.getAttribute('target') || '';
+      const isExternal = target.length > 0;
 
-  const router = {
-    addRoute: (route: Route) => {
-      routes.push(route);
-    },
-    getRoutes: () => routes,
+      if (path && !isExternal) {
+        e.preventDefault();
+        navigate(path);
+      }
+    });
+  });
+
+  function matchRoute(routes: Route[]) {
+    const currentPath = window.location.pathname;
+    const route = routes.find((route) => route.path === currentPath);
+    if (route) {
+      route.context();
+      document.title = route.title || document.title;
+    }
+  }
+  function back() {
+    matchRoute(routes);
+  }
+  function navigate(path: string, data?: any) {
+    window.history.pushState(data, '', path)
+    matchRoute(routes);
+  }
+
+  matchRoute(routes);
+
+  return {
+    navigate,
   };
-
-  return router;
 }
