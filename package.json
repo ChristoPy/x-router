@@ -1,10 +1,19 @@
 {
   "name": "x-router",
-  "private": true,
+  "private": false,
   "version": "0.0.0",
   "type": "module",
   "author": "Christopher Ribeiro <christo_campiglia@hotmail.com>",
   "description": "A simple router for the web",
+  "files": ["dist"],
+  "main": "./dist/x-router.umd.cjs",
+  "module": "./dist/x-router.js",
+  "exports": {
+    ".": {
+      "import": "./dist/x-router.js",
+      "require": "./dist/x-router.umd.cjs"
+    }
+  },
   "keywords": [
     "x-router",
     "router",
