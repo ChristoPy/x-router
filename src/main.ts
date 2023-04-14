@@ -1,11 +1,14 @@
-interface Route {
+interface RouteParams {
   name: string;
   path: string;
   context: Function;
   title?: string;
 }
+interface Route extends RouteParams {
+  params: Record<string, string>;
+}
 
-export default function XRouter(routes: Route[] = []) {
+export default function XRouter(routes: RouteParams[] = []) {
   window.onpopstate = back;
   document.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', (e) => {
@@ -20,20 +23,30 @@ export default function XRouter(routes: Route[] = []) {
     });
   });
 
-  function matchRoute(routes: Route[]): Route {
+  function matchRoute(routes: RouteParams[]): Route {
     const currentPath = window.location.pathname;
     const route = routes.find((route) => route.path === currentPath);
+    const params: Record<string, string> = {};
+
+    new URLSearchParams(window.location.search).forEach((value, key) => {
+      params[key] = value;
+    })
+
     if (route) {
       route.context();
       document.title = route.title || document.title;
-      return route
+      return {
+        ...route,
+        params
+      }
     }
 
     return {
       context: () => {},
       name: '',
       path: currentPath,
-      title: ''
+      title: '',
+      params
     }
   }
   function back() {
