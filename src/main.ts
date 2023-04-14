@@ -20,12 +20,20 @@ export default function XRouter(routes: Route[] = []) {
     });
   });
 
-  function matchRoute(routes: Route[]) {
+  function matchRoute(routes: Route[]): Route {
     const currentPath = window.location.pathname;
     const route = routes.find((route) => route.path === currentPath);
     if (route) {
       route.context();
       document.title = route.title || document.title;
+      return route
+    }
+
+    return {
+      context: () => {},
+      name: '',
+      path: currentPath,
+      title: ''
     }
   }
   function back() {
@@ -36,9 +44,12 @@ export default function XRouter(routes: Route[] = []) {
     matchRoute(routes);
   }
 
-  matchRoute(routes);
+  let route = matchRoute(routes);
 
   return {
     navigate,
+    get route() {
+      return route
+    }
   };
 }
