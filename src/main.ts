@@ -10,19 +10,6 @@ interface Route extends RouteParams {
 
 export default function XRouter(routes: RouteParams[] = []) {
   window.onpopstate = back;
-  document.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', (e) => {
-      const path = link.getAttribute('href');
-      const target = link.getAttribute('target') || '';
-      const isExternal = target.length > 0;
-
-      if (path && !isExternal) {
-        e.preventDefault();
-        navigate(path);
-      }
-    });
-  });
-
   function matchRoute(routes: RouteParams[]): Route {
     const currentPath = window.location.pathname;
     const route = routes.find((route) => route.path === currentPath);
