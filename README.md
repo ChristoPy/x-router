@@ -26,7 +26,7 @@ The `context` function will be called whenever the corresponding route is naviga
 ```js
 const app = document.getElementById('app')!;
 
-XRouter([
+const router = XRouter([
   {
     name: 'home',
     path: '/',
@@ -41,6 +41,14 @@ XRouter([
 ```
 
 When a user navigates to a defined route, X-Router will execute the `context` function associated with that route, allowing you to update the content of your application dynamically.
+
+
+You can get route information from the `router` object, such as the current route name, or the current route parameters:
+
+```js
+router.route.name; // 'home'
+router.route.params; // {}
+```
 
 # License
 X-Router is released under the [MIT License](LICENSE).
