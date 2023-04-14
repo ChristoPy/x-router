@@ -1,7 +1,7 @@
 {
   "name": "@christopy/x-router",
   "private": false,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "author": "Christopher Ribeiro <christo_campiglia@hotmail.com>",
   "description": "A simple router for the web",
